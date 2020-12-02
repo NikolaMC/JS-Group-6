@@ -22,7 +22,7 @@ body {
   padding-top: var(--main-padding);
 }
 main {
-  background: #f2e4b7;
+  background: #ebe9e4;
   grid-area: main;
   border-radius: var(--main-radius);
   padding-top: var(--main-padding);
@@ -34,7 +34,7 @@ main {
   padding-top: var(--main-padding);
 }
 #writeNotesHere {
-  background: #e9cc29;
+  background: #7a7a78;
   grid-area: writeNotesHere;
   border-radius: var(--main-radius);
   padding-top: var(--main-padding);
