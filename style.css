@@ -2,6 +2,7 @@
   --main-radius: 5px;
   --main-padding: 5px;
 }
+
 body {
   display: grid;
   height: 100vh;
@@ -15,24 +16,28 @@ body {
   grid-gap: 0.2rem;
   text-align: center;
 }
+
 #head {
   background: #a9a9a9;
   grid-area: head;
   border-radius: var(--main-radius);
   padding-top: var(--main-padding);
 }
+
 main {
   background: #ebe9e4;
   grid-area: main;
   border-radius: var(--main-radius);
   padding-top: var(--main-padding);
 }
+
 #noteBooks {
   background: #dcdcdc;
   grid-area: noteBooks;
   border-radius: var(--main-radius);
   padding-top: var(--main-padding);
 }
+
 #writeNotesHere {
   background: #7a7a78;
   grid-area: writeNotesHere;
@@ -46,4 +51,9 @@ main {
   grid-area: foot;
   border-radius: var(--main-radius);
   padding-top: var(--main-padding);
+}
+
+#inputArea {
+  resize: none;
+  width: 80%;
 }
