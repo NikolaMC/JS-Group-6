@@ -1,3 +1,49 @@
+:root {
+  --main-radius: 5px;
+  --main-padding: 5px;
+}
 body {
-    box-sizing: border-box;
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 0.65fr 1.5fr 1.2fr 0.6fr;
+  grid-template-areas:
+    "head head head head"
+    "noteBooks main main main"
+    "noteBooks main main main"
+    "noteBooks foot foot foot";
+  grid-gap: 0.2rem;
+  text-align: center;
+}
+#head {
+  background: #a9a9a9;
+  grid-area: head;
+  border-radius: var(--main-radius);
+  padding-top: var(--main-padding);
+}
+main {
+  background: #f2e4b7;
+  grid-area: main;
+  border-radius: var(--main-radius);
+  padding-top: var(--main-padding);
+}
+#noteBooks {
+  background: #dcdcdc;
+  grid-area: noteBooks;
+  border-radius: var(--main-radius);
+  padding-top: var(--main-padding);
+}
+#writeNotesHere {
+  background: #e9cc29;
+  grid-area: writeNotesHere;
+  border-radius: var(--main-radius);
+  padding-top: var(--main-padding);
+  height: 5cm;
+}
+
+#foot {
+  background: #c0c0c0;
+  grid-area: foot;
+  border-radius: var(--main-radius);
+  padding-top: var(--main-padding);
 }
