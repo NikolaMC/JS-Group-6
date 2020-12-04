@@ -23,3 +23,7 @@ inputSubmit.addEventListener("click", function readForm(e) {
 
     inputArea.value = '';
 });
+ // supposed to be the localstorage function in main
+function storeInMain(){
+    // still researching how to store correctly
+}
