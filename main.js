@@ -8,21 +8,36 @@ let inputArea = document.getElementById("inputArea");
 let inputSubmit = document.getElementById("inputText");
 let listSubmit = document.getElementById("inputList");
 let toggleButton = document.getElementById("toggleList");
-
 let main = document.getElementById("writeNotesHere");
+let inputArray = [];
+
+if (localStorage.getItem("notes")){
+    inputArray = JSON.parse(localStorage.getItem("notes"))
+}else{
+    inputArray = [];
+}
+localStorage.setItem("notes", JSON.stringify(inputArray));
+let cache = JSON.parse(localStorage.getItem("notes"));
+
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
     e.preventDefault();
+
+    inputArray.push(inputArea.value);
+    localStorage.setItem("notes", JSON.stringify(inputArray));
 
     let newParagraph = document.createElement("p");
 
     let userText = inputArea.value;
     let textNode = document.createTextNode(userText);
+    newParagraph.setAttribute("id", "para")
 
     newParagraph.appendChild(textNode);    
     main.appendChild(newParagraph);
 
     inputArea.value = '';
+    console.log(inputArray);
+
 });
 
 listSubmit.addEventListener("click", function saveASList(e) {
