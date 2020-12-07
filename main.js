@@ -1,8 +1,10 @@
 document.getElementById("head").innerHTML = "Ease Your Mind";
-document.querySelector("header").style.cssText = "color: black; font-size: 125px; font-family: courier;";
+document.querySelector("header").style.cssText =
+  "color: black; font-size: 125px; font-family: courier;";
 
 document.getElementById("noteBooks").innerHTML = "Kategorisering?";
-document.querySelector("#noteBooks").style.cssText = "color: black; font-size: 30px; font-family: courier;";
+document.querySelector("#noteBooks").style.cssText =
+  "color: black; font-size: 30px; font-family: courier;";
 let inputForm = document.getElementById("inputForm");
 let inputArea = document.getElementById("inputArea");
 let inputSubmit = document.getElementById("inputText");
@@ -11,56 +13,76 @@ let toggleButton = document.getElementById("toggleList");
 let main = document.getElementById("writeNotesHere");
 let inputArray = [];
 
-if (localStorage.getItem("notes")){
-    inputArray = JSON.parse(localStorage.getItem("notes"))
-}else{
-    inputArray = [];
+if (localStorage.getItem("notes")) {
+  inputArray = JSON.parse(localStorage.getItem("notes"));
+} else {
+  inputArray = [];
 }
 localStorage.setItem("notes", JSON.stringify(inputArray));
 let cache = JSON.parse(localStorage.getItem("notes"));
 
+//Create P tag
+let newParagraph = document.createElement("p");
+newParagraph.setAttribute("id", "para");
+main.appendChild(newParagraph);
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    inputArray.push(inputArea.value);
-    localStorage.setItem("notes", JSON.stringify(inputArray));
+  inputArray.push(inputArea.value);
+  localStorage.setItem("notes", JSON.stringify(inputArray));
 
-    let newParagraph = document.createElement("p");
+  let userText = inputArea.value;
+  newParagraph.textContent = userText;
 
-    let userText = inputArea.value;
-    let textNode = document.createTextNode(userText);
-    newParagraph.setAttribute("id", "para")
-
-    newParagraph.appendChild(textNode);    
-    main.appendChild(newParagraph);
-
-    inputArea.value = '';
-    console.log(inputArray);
-
+  inputArea.value = "";
+  console.log(inputArray);
 });
 
 listSubmit.addEventListener("click", function saveASList(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (document.getElementById("ulElement") === null) {
-        let newUL = document.createElement("ul");
-        newUL.setAttribute("id", "ulElement");
-        main.appendChild(newUL);
-    }
+  if (document.getElementById("ulElement") === null) {
+    let newUL = document.createElement("ul");
+    newUL.setAttribute("id", "ulElement");
+    main.appendChild(newUL);
+  }
 
-    let userText = inputArea.value;
+  let userText = inputArea.value;
 
-    let newLI = document.createElement("li");
-    let textNode = document.createTextNode(userText);
-    newLI.appendChild(textNode);
+  let newLI = document.createElement("li");
+  let textNode = document.createTextNode(userText);
+  newLI.appendChild(textNode);
 
-    document.getElementById("ulElement").appendChild(newLI);
+  document.getElementById("ulElement").appendChild(newLI);
 
-    inputArea.value = '';
-})
+  inputArea.value = "";
+});
 
- // supposed to be the localstorage function in main
-function storeInMain(){
-    // still researching how to store correctly
+// supposed to be the localstorage function in main
+function storeInMain() {
+  // still researching how to store correctly
 }
+
+let saveNote = document.createElement("button");
+saveNote.textContent = "Save note";
+main.appendChild(saveNote);
+
+let folder = document.createElement("div");
+folder.setAttribute("id", "folderForNotes");
+
+let aside = document.getElementById("noteBooks");
+aside.appendChild(folder);
+
+saveNote.addEventListener("click", function () {
+  let pText = document.getElementById("para");
+
+  if (pText.textContent !== "") {
+    let newP = document.createElement("p");
+    newP.textContent = pText.textContent;
+    folder.appendChild(newP);
+    console.log("added p");
+  } else {
+    console.log("Empty text");
+  }
+});
