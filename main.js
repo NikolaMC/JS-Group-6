@@ -1,3 +1,5 @@
+//"use strict";
+
 document.getElementById("head").innerHTML = "Ease Your Mind";
 document.querySelector("header").style.cssText =
   "color: black; font-size: 125px; font-family: courier;";
@@ -11,37 +13,47 @@ let inputSubmit = document.getElementById("inputText");
 let listSubmit = document.getElementById("inputList");
 let toggleButton = document.getElementById("toggleList");
 let main = document.getElementById("writeNotesHere");
-let inputArray = [];
 
-if (localStorage.getItem("notes")) {
-  inputArray = JSON.parse(localStorage.getItem("notes"));
-} else {
-  inputArray = [];
-}
+let inputArray = localStorage.getItem("notes")
+  ? JSON.parse(localStorage.getItem("notes"))
+  : [];
+
 localStorage.setItem("notes", JSON.stringify(inputArray));
 let cache = JSON.parse(localStorage.getItem("notes"));
 
 //Create P tag
 let newParagraph = document.createElement("p");
 newParagraph.setAttribute("id", "para");
-main.appendChild(newParagraph);
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
   e.preventDefault();
-
-  inputArray.push(inputArea.value);
-  localStorage.setItem("notes", JSON.stringify(inputArray));
-
-  let userText = inputArea.value;
-  newParagraph.textContent = userText;
-
-  inputArea.value = "";
-  console.log(inputArray);
+  normalText();
 });
 
 listSubmit.addEventListener("click", function saveASList(e) {
   e.preventDefault();
+  saveList();
+});
 
+function normalText() {
+  let newParagraph = document.createElement("p");
+
+  let userText = inputArea.value;
+  let textNode = document.createTextNode(userText);
+  newParagraph.setAttribute("id", "para");
+
+  newParagraph.appendChild(textNode);
+  main.appendChild(newParagraph);
+
+  inputArray.push(inputArea.value);
+  localStorage.setItem("notes", JSON.stringify(inputArray));
+
+  inputArea.value = "";
+
+  console.log(inputArray);
+}
+// saves the input as a list but also stores it in localStorage
+function saveList() {
   if (document.getElementById("ulElement") === null) {
     let newUL = document.createElement("ul");
     newUL.setAttribute("id", "ulElement");
@@ -56,8 +68,12 @@ listSubmit.addEventListener("click", function saveASList(e) {
 
   document.getElementById("ulElement").appendChild(newLI);
 
+  inputArray.push(inputArea.value);
+  localStorage.setItem("notes", JSON.stringify(inputArray));
+
   inputArea.value = "";
-});
+  console.log(inputArray);
+}
 
 // supposed to be the localstorage function in main
 function storeInMain() {
