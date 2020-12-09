@@ -19,9 +19,6 @@ localStorage.setItem("notes", JSON.stringify(inputArray));
 let cache = JSON.parse(localStorage.getItem("notes"));
 
 //Create P tag
-let newParagraph = document.createElement("p");
-newParagraph.setAttribute("id", "para");
-main.appendChild(newParagraph);
 
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
@@ -39,14 +36,17 @@ function normalText() {
   localStorage.setItem("notes", JSON.stringify(inputArray));
 
   let userText = inputArea.value;
-  newParagraph.textContent = userText;
+  let newParagraph = document.createElement("p");
+  let textNode = document.createTextNode(userText);
+  newParagraph.appendChild(textNode);
+  main.appendChild(newParagraph);
 
   inputArea.value = "";
-  console.log(inputArray);
+  //console.log(inputArray);
 
   storeInMain()
 
-  console.log("input array:  "+inputArray);
+  //console.log("input array:  "+inputArray);
 }
 // saves the input as a list but also stores it in localStorage
 function saveList() {
@@ -78,7 +78,7 @@ function storeInMain() {
 
 let saveNote = document.createElement("button");
 saveNote.textContent = "Save note";
-main.appendChild(saveNote);
+inputForm.appendChild(saveNote);
 
 let folder = document.createElement("div");
 folder.setAttribute("id", "folderForNotes");
@@ -86,15 +86,47 @@ folder.setAttribute("id", "folderForNotes");
 let aside = document.getElementById("noteBooks");
 aside.appendChild(folder);
 
-saveNote.addEventListener("click", function () {
-  let pText = document.getElementById("para");
+saveNote.addEventListener("click", function (e) {
+  e.preventDefault();
+  let firstPText = main.querySelector('p'); // Get the 1st paragraph in main
 
-  if (pText.textContent !== "") {
-    let newP = document.createElement("p");
-    newP.textContent = pText.textContent;
-    folder.appendChild(newP);
-    console.log("added p");
+  console.log(firstPText);
+
+  if (main.innerHTML == "") {
+      alert("Please enter something in the note before saving.");
   } else {
-    console.log("Empty text");
-  }
+    if (firstPText.textContent !== "") {
+        let newP = document.createElement("p");
+        newP.textContent = firstPText.textContent;
+        folder.appendChild(newP);
+        main.innerHTML = "";
+        console.log("added p");
+      } else {
+        console.log("Empty text");
+      }
+  }  
 });
+
+let saveNoteList = document.createElement("button");
+saveNoteList.textContent = "Save list";
+inputForm.appendChild(saveNoteList);
+
+saveNoteList.addEventListener("click", function(e){
+    e.preventDefault();
+  let pList = document.getElementById("ulElement");
+
+  if (main.innerHTML == "") {
+      alert("Please enter something in the note before saving.")
+  } else {
+    if (pList.textContent !== "") {
+        let newP2 = document.createElement("p");
+        newP2.textContent = pList.textContent;
+        folder.appendChild(newP2);
+        main.innerHTML = "";
+        console.log("added p");
+      } else {
+        console.log("Empty List");
+      }
+  }
+
+})
