@@ -12,13 +12,9 @@ let inputSubmit = document.getElementById("inputText");
 let listSubmit = document.getElementById("inputList");
 let toggleButton = document.getElementById("toggleList");
 let main = document.getElementById("writeNotesHere");
-let inputArray = [];
+let inputArray = localStorage.getItem("notes")? JSON.parse(localStorage.getItem("notes")): []; 
 
-if (localStorage.getItem("notes")) {
-  inputArray = JSON.parse(localStorage.getItem("notes"));
-} else {
-  inputArray = [];
-}
+
 localStorage.setItem("notes", JSON.stringify(inputArray));
 let cache = JSON.parse(localStorage.getItem("notes"));
 
@@ -27,18 +23,6 @@ let newParagraph = document.createElement("p");
 newParagraph.setAttribute("id", "para");
 main.appendChild(newParagraph);
 
-inputSubmit.addEventListener("click", function saveAsText(e) {
-  e.preventDefault();
-
-  inputArray.push(inputArea.value);
-  localStorage.setItem("notes", JSON.stringify(inputArray));
-
-  let userText = inputArea.value;
-  newParagraph.textContent = userText;
-
-  inputArea.value = "";
-  console.log(inputArray);
-});
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
   e.preventDefault();
@@ -51,18 +35,16 @@ listSubmit.addEventListener("click", function saveASList(e) {
 });
 
 function normalText() {
-  
+  inputArray.push(inputArea.value);
+  localStorage.setItem("notes", JSON.stringify(inputArray));
 
   let userText = inputArea.value;
-  let textNode = document.createTextNode(userText);
-  newParagraph.setAttribute("id", "para");
-
-  newParagraph.appendChild(textNode);
-  main.appendChild(newParagraph);
-
-  storeInMain()
+  newParagraph.textContent = userText;
 
   inputArea.value = "";
+  console.log(inputArray);
+
+  storeInMain()
 
   console.log("input array:  "+inputArray);
 }
