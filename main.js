@@ -18,9 +18,6 @@ let inputArray = localStorage.getItem("notes")? JSON.parse(localStorage.getItem(
 localStorage.setItem("notes", JSON.stringify(inputArray));
 let cache = JSON.parse(localStorage.getItem("notes"));
 
-//Create P tag
-
-
 inputSubmit.addEventListener("click", function saveAsText(e) {
   e.preventDefault();
   normalText();
