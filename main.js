@@ -17,7 +17,6 @@ let listArray = window.localStorage.getItem("list") ? JSON.parse(localStorage.ge
 localStorage.setItem("notes", JSON.stringify(inputArray));
 localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
 localStorage.setItem("list", JSON.stringify(listArray));
-//let cache = JSON.parse(localStorage.getItem("notes")); // probably unneccessary variable.
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
 	e.preventDefault();
@@ -99,13 +98,14 @@ saveNote.addEventListener("click", function (e) {
 			let newP = document.createElement("p");
 			newP.textContent = firstPText.textContent;
 			folder.appendChild(newP);
-			saveInNoteBooks();
+
 			main.innerHTML = "";
 			console.log("added p");
 		} else {
 			console.log("Empty text");
 		}
 	}
+	saveInNoteBooks();
 });
 
 let saveNoteList = document.createElement("button");
@@ -115,7 +115,7 @@ inputForm.appendChild(saveNoteList);
 saveNoteList.addEventListener("click", function (e) {
 	e.preventDefault();
 	let pList = document.getElementById("ulElement");
-	saveInNoteBooks();
+
 	if (main.innerHTML == "") {
 		alert("Please enter something in the note before saving.");
 	} else {
@@ -123,6 +123,7 @@ saveNoteList.addEventListener("click", function (e) {
 			let newP2 = document.createElement("p");
 			newP2.textContent = pList.textContent;
 			folder.appendChild(newP2);
+			saveInNoteBooks();
 			main.innerHTML = "";
 			console.log("added p");
 		} else {
@@ -130,8 +131,14 @@ saveNoteList.addEventListener("click", function (e) {
 		}
 	}
 });
-document.getElementById("writeNotesHere").innerHTML = JSON.parse(localStorage.getItem("notes"));
-//document.getElementById("noteBooks").innerHTML = JSON.parse(localStorage.getItem("savedNoteBooks"));
-document.getElementById("writeNotesHere").innerHTML = JSON.parse(localStorage.getItem("list"));
+
+//document.getElementById("savedNoteBooks").innerHTML = JSON.parse(localStorage.getItem("noteBooks"));
 
 // the last one of the 3 above dominates what will be shown on the page.
+const savedNotesFromMain = JSON.parse(localStorage.getItem("notes"));
+const savedListFromMain = JSON.parse(localStorage.getItem("list"));
+const cache = JSON.parse(localStorage.getItem("savedNoteBooks"));
+
+document.getElementById("writeNotesHere").innerHTML = savedNotesFromMain + "," + savedListFromMain;
+document.getElementById("noteBooks").textContent = cache;
+console.log(cache);
