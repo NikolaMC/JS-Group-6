@@ -13,11 +13,13 @@ let main = document.getElementById("writeNotesHere");
 let inputArray = window.localStorage.getItem("notes") ? JSON.parse(localStorage.getItem("notes")) : [];
 let noteBookArray = window.localStorage.getItem("savedNoteBooks") ? JSON.parse(localStorage.getItem("savedNoteBooks")) : [];
 let listArray = window.localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
+let listBookArray = window.localStorage.getItem("savedListBooks") ? JSON.parse(localStorage.getItem("savedListBooks")) : [];
 
 // makes the array elements into JSON strings which is required to store them into localstorage
 localStorage.setItem("notes", JSON.stringify(inputArray));
 localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
 localStorage.setItem("list", JSON.stringify(listArray));
+localStorage.setItem("savedListBooks", JSON.stringify(listBookArray));
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
 	e.preventDefault();
@@ -70,10 +72,27 @@ function storeListInMain() {
 	listArray.push(inputArea.value);
 	localStorage.setItem("list", JSON.stringify(listArray));
 }
-// not finished, need to find out which value to push.
-function saveInNoteBooks() {
-	noteBookArray.push(main.value);
+// fills the noteBookArray with the elements from inputArray but also empties inputArray
+// when a note is saved into noteBooks the "notes" in main will be emptied
+function saveNoteInNoteBooks() {
+	for (let i = 0; i < inputArray.length; i++) {
+		noteBookArray.push(inputArray[i]);
+		inputArray.splice(i, 1);
+		i--;
+	}
 	localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
+	localStorage.removeItem("notes");
+}
+// fills the listBookArray with the elements from listArray but also empties listArray
+// when a list is saved into noteBooks the "list" in main will be emptied
+function saveListInNoteBooks() {
+	for (let i = 0; i < listArray.length; i++) {
+		listBookArray.push(listArray[i]);
+		listArray.splice(i, 1);
+		i--;
+	}
+	localStorage.setItem("savedListBooks", JSON.stringify(listBookArray));
+	localStorage.removeItem("list");
 }
 
 let saveNote = document.createElement("button");
@@ -88,25 +107,24 @@ aside.appendChild(folder);
 
 saveNote.addEventListener("click", function (e) {
 	e.preventDefault();
-	let firstPText = main.querySelector("p"); // Get the 1st paragraph in main
 
+	let firstPText = main.querySelector("p"); // Get the 1st paragraph in main
 	console.log(firstPText);
 
 	if (main.innerHTML == "") {
 		alert("Please enter something in the note before saving.");
 	} else {
 		if (firstPText.textContent !== "") {
+			saveNoteInNoteBooks();
 			let newP = document.createElement("p");
 			newP.textContent = firstPText.textContent;
 			folder.appendChild(newP);
-
 			main.innerHTML = "";
 			console.log("added p");
 		} else {
 			console.log("Empty text");
 		}
 	}
-	saveInNoteBooks();
 });
 
 let saveNoteList = document.createElement("button");
@@ -121,20 +139,22 @@ saveNoteList.addEventListener("click", function (e) {
 		alert("Please create a list before saving your list's.");
 	} else {
 		if (pList.textContent !== "") {
+			saveListInNoteBooks();
 			let newP2 = document.createElement("li");
 			newP2.textContent = pList.textContent;
 			folder.appendChild(newP2);
-			saveInNoteBooks();
+
 			main.innerHTML = "";
 		}
 	}
 });
+
 // the arrays are changed into a normal javascript string before we call them
 // into the functions that show them on the page on refresh / opening of page.
-
 const savedNotesFromMain = JSON.parse(localStorage.getItem("notes"));
 const savedListFromMain = JSON.parse(localStorage.getItem("list"));
-const cache = JSON.parse(localStorage.getItem("savedNoteBooks"));
+const notesIntoNoteBooks = JSON.parse(localStorage.getItem("savedNoteBooks"));
+const listIntoNoteBooks = JSON.parse(localStorage.getItem("savedListBooks"));
 
 // the saved elements in the savedListFromMain gets restored to a UL on refresh
 function savedList() {
@@ -146,7 +166,7 @@ function savedList() {
 		document.getElementById("writeNotesHere").appendChild(todoList);
 	}
 }
-// the saved elements in savedNotesFromMain is again output as normal text on refresh.
+// the saved elements in savedNotesFromMain is again output as normal text in main on refresh.
 function savedNote() {
 	for (let i = 0; i < savedNotesFromMain.length; i++) {
 		let toDoNote = document.createElement("p");
@@ -154,6 +174,28 @@ function savedNote() {
 		document.getElementById("writeNotesHere").appendChild(toDoNote);
 	}
 }
-// calls on the functions that has stored the elements so it's shown on opening of page / refresh
-savedNote();
-savedList();
+// the saved elements in savedNotesFromMain is again output as normal text in noteBooks on refresh.
+function saveNoteToNoteBooks() {
+	for (let i = 0; i < notesIntoNoteBooks.length; i++) {
+		let noteSavedNote = document.createElement("p");
+		noteSavedNote.appendChild(document.createTextNode(notesIntoNoteBooks[i]));
+		document.getElementById("noteBooks").appendChild(noteSavedNote);
+	}
+}
+// The saved elements in listIntoNoteBooks is output as a <ul> on page refresh in noteBooks
+function saveListToNoteBooks() {
+	let uList = document.createElement("ul");
+	for (let i = 0; i < listIntoNoteBooks.length; i++) {
+		let childList = document.createElement("li");
+		childList.appendChild(document.createTextNode(listIntoNoteBooks[i]));
+		uList.appendChild(childList);
+		document.getElementById("noteBooks").appendChild(childList);
+	}
+}
+
+window.addEventListener("DOMContentLoaded", (event) => {
+	savedNote();
+	savedList();
+	saveNoteToNoteBooks();
+	saveListToNoteBooks();
+});
