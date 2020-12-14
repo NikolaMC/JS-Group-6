@@ -199,3 +199,30 @@ window.addEventListener("DOMContentLoaded", (event) => {
 	saveNoteToNoteBooks();
 	saveListToNoteBooks();
 });
+
+
+let eraseNotesInMain = document.createElement("button");
+let eraseListInMain = document.createElement("button");
+eraseNotesInMain.textContent = "Delete notes";
+eraseListInMain.textContent = "Delete lists";
+eraseNotesInMain.setAttribute("id", "eraseNotesInMain");
+eraseListInMain.setAttribute("id", "eraseListInMain");
+inputForm.appendChild(eraseNotesInMain);
+inputForm.appendChild(eraseListInMain);
+
+// erase normal text from both memory and frontend
+eraseNotesInMain.addEventListener("click", function () {
+	for (let i = 0; i < inputArray.length; i++) {
+		inputArray.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("notes");
+});
+// erase unordered lists from both memory and frontend
+eraseListInMain.addEventListener("click", function () {
+	for (let i = 0; i < listArray.length; i++) {
+		listArray.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("list");
+});

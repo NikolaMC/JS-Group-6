@@ -58,3 +58,13 @@ main {
 	resize: none;
 	width: 80%;
 }
+#eraseNotesInMain {
+	position: relative;
+	margin-left: 100px;
+}
+#eraseListInMain {
+	position: relative;
+}
+button {
+	margin: 5px;
+}
