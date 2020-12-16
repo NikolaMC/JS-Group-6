@@ -10,9 +10,9 @@ body {
 	grid-template-rows: 0.65fr 1.5fr 1.2fr 0.6fr;
 	grid-template-areas:
 		"head head head head"
-		"noteBooks main main main"
-		"noteBooks main main main"
-		"noteBooks foot foot foot";
+		"noteBooks noteBooks main main"
+		"noteBooks noteBooks main main"
+		"noteBooks noteBooks main main";
 	grid-gap: 0.2rem;
 	text-align: center;
 }
@@ -43,15 +43,10 @@ main {
 	grid-area: writeNotesHere;
 	border-radius: var(--main-radius);
 	padding-top: var(--main-padding);
+	padding-left: var(--main-padding);
 	height: 90%;
 	text-align: left;
-}
-
-#foot {
-	background: #c0c0c0;
-	grid-area: foot;
-	border-radius: var(--main-radius);
-	padding-top: var(--main-padding);
+	overflow-y: scroll;
 }
 
 #inputArea {
