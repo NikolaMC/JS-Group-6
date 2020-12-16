@@ -132,20 +132,27 @@ let saveNoteList = document.createElement("button");
 saveNoteList.textContent = "Save list";
 inputForm.appendChild(saveNoteList);
 
-saveNoteList.addEventListener("click", function (e) {
-	e.preventDefault();
+saveNoteList.addEventListener("click", function () {
+	//e.preventDefault();
 	let pList = document.getElementById("ulElement");
 
 	if (main.innerHTML == "") {
 		alert("Please create a list before saving your list's.");
 	} else {
 		if (pList.textContent !== "") {
-			saveListInNoteBooks();
+			
 			let newP2 = document.createElement("li");
 			newP2.textContent = pList.textContent;
+			let arrayList = [];
+			arrayList.push(pList)
+			arrayList.forEach(function(newP2){
+				folder.appendChild(newP2);
+			});
+			console.log(arrayList);
 			folder.appendChild(newP2);
-
 			main.innerHTML = "";
+			//location.reload();
+			saveListInNoteBooks();
 		}
 	}
 });
@@ -199,4 +206,31 @@ window.addEventListener("DOMContentLoaded", (event) => {
 	savedList();
 	saveNoteToNoteBooks();
 	saveListToNoteBooks();
+});
+
+
+let eraseNotesInMain = document.createElement("button");
+let eraseListInMain = document.createElement("button");
+eraseNotesInMain.textContent = "Delete notes";
+eraseListInMain.textContent = "Delete lists";
+eraseNotesInMain.setAttribute("id", "eraseNotesInMain");
+eraseListInMain.setAttribute("id", "eraseListInMain");
+inputForm.appendChild(eraseNotesInMain);
+inputForm.appendChild(eraseListInMain);
+
+// erase normal text from both memory and frontend
+eraseNotesInMain.addEventListener("click", function () {
+	for (let i = 0; i < inputArray.length; i++) {
+		inputArray.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("notes");
+});
+// erase unordered lists from both memory and frontend
+eraseListInMain.addEventListener("click", function () {
+	for (let i = 0; i < listArray.length; i++) {
+		listArray.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("list");
 });
