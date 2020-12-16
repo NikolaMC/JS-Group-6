@@ -1,7 +1,6 @@
 "use strict";
 document.getElementById("head").innerHTML = "Ease Your Mind";
 document.querySelector("header").style.cssText = "color: black; font-size: 125px; font-family: courier;";
-
 document.getElementById("noteBooks").innerHTML = "Sparat";
 document.querySelector("#noteBooks").style.cssText = "color: black; font-size: 30px; font-family: courier;";
 let inputForm = document.getElementById("inputForm");
@@ -233,3 +232,58 @@ eraseListInMain.addEventListener("click", function () {
 	}
 	localStorage.removeItem("list");
 });
+
+// skapar ett h2 element och lägger in över main, "Granska"
+
+let reviewText = document.createElement("h2");
+reviewText.setAttribute("id","granska");
+document.getElementById("inputForm").appendChild(reviewText);
+document.getElementById("granska").innerHTML= "Granska:";
+
+// skapar knapp för Edita notes
+let editNotes = document.createElement("button");
+editNotes.setAttribute("id","editNotes");
+editNotes.innerHTML = "Edit Notes"
+aside.appendChild(editNotes);
+
+editNotes.addEventListener("click", function(e){
+e.preventDefault
+
+//kopierar koden till textarean
+noteBookArray.forEach(element => {
+	inputArea.value += element + '\r\n\r\n';
+	
+
+});
+
+
+
+});
+
+// skapar knapp för att cleara allt.
+let clearAll = document.createElement("button");
+clearAll.setAttribute("id","clearAll");
+clearAll.innerHTML = "Clear All"
+aside.appendChild(clearAll);
+
+clearAll.addEventListener("click", function(e){
+	e.preventDefault
+	
+	//What to do?
+	
+	});
+
+	// skapar knapp för att Edita Lists.
+
+let editLists = document.createElement("button");
+editLists.setAttribute("id","editLists");
+editLists.innerHTML = "Edit Lists"
+aside.appendChild(editLists);
+
+editLists.addEventListener("click", function(e){
+	e.preventDefault
+	
+	
+	//What to do?
+	
+	});
