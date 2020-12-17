@@ -1,65 +1,65 @@
 :root {
-  --main-radius: 5px;
-  --main-padding: 5px;
+	--main-radius: 5px;
+	--main-padding: 5px;
 }
 
 body {
-  display: grid;
-  height: 100vh;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 0.65fr 1.5fr 1.2fr 0.6fr;
-  grid-template-areas:
-    "head head head head"
-    "noteBooks noteBooks main main"
-    "noteBooks noteBooks main main"
-    "noteBooks noteBooks main main";
-  grid-gap: 0.2rem;
-  text-align: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 0.65fr 1.5fr 1.2fr 0.6fr;
+	grid-template-areas:
+		"head head head head"
+		"noteBooks noteBooks main main"
+		"noteBooks noteBooks main main"
+		"noteBooks noteBooks main main";
+	grid-gap: 0.2rem;
+	text-align: center;
 }
 
 #head {
-  background: #a9a9a9;
-  grid-area: head;
-  border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
+	background: #a9a9a9;
+	grid-area: head;
+	border-radius: var(--main-radius);
+	padding-top: var(--main-padding);
 }
 
 main {
-  background: #ebe9e4;
-  grid-area: main;
-  border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
-  height: auto;
+	background: #ebe9e4;
+	grid-area: main;
+	border-radius: var(--main-radius);
+	padding-top: var(--main-padding);
+	height: auto;
 }
 
 #noteBooks {
-  background: #dcdcdc;
-  grid-area: noteBooks;
-  border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
-  height: auto;
+	background: #dcdcdc;
+	grid-area: noteBooks;
+	border-radius: var(--main-radius);
+	padding-top: var(--main-padding);
+	overflow-y: scroll;
+	height: 70vh;
 }
 
 #writeNotesHere {
-  background: #7a7a78;
-  grid-area: writeNotesHere;
-  border-radius: var(--main-radius);
-  padding-top: var(--main-padding);
-  height: 66.5vh;
-  text-align: left;
+	background: #7a7a78;
+	grid-area: writeNotesHere;
+	border-radius: var(--main-radius);
+	padding-top: var(--main-padding);
+	height: 60vh;
+	text-align: left;
 }
 
 #inputArea {
-  resize: none;
-  width: 80%;
+	resize: none;
+	width: 80%;
 }
 #eraseNotesInMain {
-  position: relative;
-  margin-left: 100px;
+	position: relative;
+	margin-left: 100px;
 }
 #eraseListInMain {
-  position: relative;
+	position: relative;
 }
 button {
-  margin: 5px;
+	margin: 5px;
 }
