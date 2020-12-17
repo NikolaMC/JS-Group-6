@@ -131,25 +131,23 @@ saveNoteList.textContent = "Save list";
 inputForm.appendChild(saveNoteList);
 
 saveNoteList.addEventListener("click", function () {
-	//e.preventDefault();
 	let pList = document.getElementById("ulElement");
 
 	if (main.innerHTML == "") {
 		alert("Please create a list before saving your list's.");
 	} else {
 		if (pList.textContent !== "") {
-			
 			let newP2 = document.createElement("li");
 			newP2.textContent = pList.textContent;
 			let arrayList = [];
-			arrayList.push(pList)
-			arrayList.forEach(function(newP2){
+			arrayList.push(pList);
+			arrayList.forEach(function () {
 				folder.appendChild(newP2);
 			});
 			console.log(arrayList);
 			folder.appendChild(newP2);
 			main.innerHTML = "";
-			//location.reload();
+
 			saveListInNoteBooks();
 		}
 	}
@@ -206,7 +204,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 	saveListToNoteBooks();
 });
 
-
 let eraseNotesInMain = document.createElement("button");
 let eraseListInMain = document.createElement("button");
 eraseNotesInMain.textContent = "Delete notes";
@@ -236,54 +233,59 @@ eraseListInMain.addEventListener("click", function () {
 // skapar ett h2 element och lägger in över main, "Granska"
 
 let reviewText = document.createElement("h2");
-reviewText.setAttribute("id","granska");
+reviewText.setAttribute("id", "granska");
 document.getElementById("inputForm").appendChild(reviewText);
-document.getElementById("granska").innerHTML= "Granska:";
+document.getElementById("granska").innerHTML = "Granska:";
 
 // skapar knapp för Edita notes
 let editNotes = document.createElement("button");
-editNotes.setAttribute("id","editNotes");
-editNotes.innerHTML = "Edit Notes"
+editNotes.setAttribute("id", "editNotes");
+editNotes.innerHTML = "Edit Notes";
 aside.appendChild(editNotes);
 
-editNotes.addEventListener("click", function(e){
-e.preventDefault
-
-//kopierar koden till textarean
-noteBookArray.forEach(element => {
-	inputArea.value += element + '\r\n\r\n';
-	
-
-});
-
-
-
-});
-
-// skapar knapp för att cleara allt.
-let clearAll = document.createElement("button");
-clearAll.setAttribute("id","clearAll");
-clearAll.innerHTML = "Clear All"
-aside.appendChild(clearAll);
-
-clearAll.addEventListener("click", function(e){
-	e.preventDefault
-	
-	//What to do?
-	
+editNotes.addEventListener("click", function (e) {
+	//kopierar koden till textarean
+	noteBookArray.forEach((element) => {
+		inputArea.value += element + "\r\n\r\n";
 	});
+});
 
-	// skapar knapp för att Edita Lists.
+let clearAll = document.createElement("button");
+clearAll.setAttribute("id", "clearAll");
+clearAll.textContent = "Clear All";
+aside.appendChild(clearAll);
+// eventlistener that calls on both the functions that erase lists and notes in frontend and localstorage
+clearAll.addEventListener("click", function () {
+	deleteSavedNote();
+	deleteSavedList();
+	location.reload();
+});
+
+// skapar knapp för att Edita Lists.
 
 let editLists = document.createElement("button");
-editLists.setAttribute("id","editLists");
-editLists.innerHTML = "Edit Lists"
+editLists.setAttribute("id", "editLists");
+editLists.innerHTML = "Edit Lists";
 aside.appendChild(editLists);
 
-editLists.addEventListener("click", function(e){
-	e.preventDefault
-	
-	
+editLists.addEventListener("click", function (e) {
+	e.preventDefault();
+
 	//What to do?
-	
-	});
+});
+// deletes notes in the aside, both frontend and localstorage
+function deleteSavedNote() {
+	for (let i = 0; i < notesIntoNoteBooks.length; i++) {
+		notesIntoNoteBooks.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("savedNoteBooks");
+}
+// deletes lists in aside, both frontend and localstorage
+function deleteSavedList() {
+	for (let i = 0; i < listIntoNoteBooks.length; i++) {
+		listIntoNoteBooks.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("savedListBooks");
+}
