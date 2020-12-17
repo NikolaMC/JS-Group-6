@@ -1,8 +1,7 @@
 "use strict";
 document.getElementById("head").innerHTML = "Ease Your Mind";
 document.querySelector("header").style.cssText = "color: black; font-size: 125px; font-family: courier;";
-document.getElementById("noteBooks").innerHTML = "Sparat";
-document.querySelector("#noteBooks").style.cssText = "color: black; font-size: 30px; font-family: courier;";
+document.querySelector("#noteBooks").style.cssText = "color: black; font-size: 16px; font-family: courier;";
 let inputForm = document.getElementById("inputForm");
 let inputArea = document.getElementById("inputArea");
 let inputSubmit = document.getElementById("inputText");
@@ -130,7 +129,8 @@ let saveNoteList = document.createElement("button");
 saveNoteList.textContent = "Save list";
 inputForm.appendChild(saveNoteList);
 
-saveNoteList.addEventListener("click", function () {
+saveNoteList.addEventListener("click", function (e) {
+	e.preventDefault();
 	let pList = document.getElementById("ulElement");
 
 	if (main.innerHTML == "") {
@@ -233,15 +233,15 @@ eraseListInMain.addEventListener("click", function () {
 // skapar ett h2 element och lägger in över main, "Granska"
 
 let reviewText = document.createElement("h2");
-reviewText.setAttribute("id", "granska");
+reviewText.setAttribute("id", "review");
 document.getElementById("inputForm").appendChild(reviewText);
-document.getElementById("granska").innerHTML = "Granska:";
+document.getElementById("review").innerHTML = "Review";
 
 // skapar knapp för Edita notes
 let editNotes = document.createElement("button");
 editNotes.setAttribute("id", "editNotes");
 editNotes.innerHTML = "Edit Notes";
-aside.appendChild(editNotes);
+inputForm.appendChild(editNotes);
 
 editNotes.addEventListener("click", function (e) {
 	//kopierar koden till textarean
@@ -253,7 +253,7 @@ editNotes.addEventListener("click", function (e) {
 let clearAll = document.createElement("button");
 clearAll.setAttribute("id", "clearAll");
 clearAll.textContent = "Clear All";
-aside.appendChild(clearAll);
+inputForm.appendChild(clearAll);
 // eventlistener that calls on both the functions that erase lists and notes in frontend and localstorage
 clearAll.addEventListener("click", function () {
 	deleteSavedNote();
@@ -266,7 +266,7 @@ clearAll.addEventListener("click", function () {
 let editLists = document.createElement("button");
 editLists.setAttribute("id", "editLists");
 editLists.innerHTML = "Edit Lists";
-aside.appendChild(editLists);
+inputForm.appendChild(editLists);
 
 editLists.addEventListener("click", function (e) {
 	e.preventDefault();
@@ -289,3 +289,7 @@ function deleteSavedList() {
 	}
 	localStorage.removeItem("savedListBooks");
 }
+let savedInputs = document.createElement("h2");
+savedInputs.setAttribute("id", "saveInputs");
+savedInputs.textContent = "Saved";
+inputForm.appendChild(savedInputs);
