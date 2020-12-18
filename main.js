@@ -12,15 +12,15 @@ let inputArray = window.localStorage.getItem("notes") ? JSON.parse(localStorage.
 let noteBookArray = window.localStorage.getItem("savedNoteBooks") ? JSON.parse(localStorage.getItem("savedNoteBooks")) : [];
 let listArray = window.localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
 let listBookArray = window.localStorage.getItem("savedListBooks") ? JSON.parse(localStorage.getItem("savedListBooks")) : [];
-
+let textAreaArrayNotes = window.localStorage.getItem("saveEditedNotes") ? JSON.parse(localStorage.getItem("saveEditedNotes")) : [];
 // makes the array elements into JSON strings which is required to store them into localstorage
 localStorage.setItem("notes", JSON.stringify(inputArray));
 localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
 localStorage.setItem("list", JSON.stringify(listArray));
 localStorage.setItem("savedListBooks", JSON.stringify(listBookArray));
+localStorage.setItem("saveEditedNotes", JSON.stringify(textAreaArrayNotes));
 
 inputSubmit.addEventListener("click", function saveAsText(e) {
-	e.preventDefault();
 	normalText();
 });
 
@@ -159,7 +159,7 @@ const savedNotesFromMain = JSON.parse(localStorage.getItem("notes"));
 const savedListFromMain = JSON.parse(localStorage.getItem("list"));
 const notesIntoNoteBooks = JSON.parse(localStorage.getItem("savedNoteBooks"));
 const listIntoNoteBooks = JSON.parse(localStorage.getItem("savedListBooks"));
-
+const editedNotesIntoTextarea = JSON.parse(localStorage.getItem("saveEditedNotes"));
 // the saved elements in the savedListFromMain gets restored to a UL on refresh
 function savedList() {
 	let todoList = document.createElement("ul");
@@ -202,6 +202,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 	savedList();
 	saveNoteToNoteBooks();
 	saveListToNoteBooks();
+	saveEditedNoteToTextArea();
 });
 
 let eraseNotesInMain = document.createElement("button");
@@ -245,9 +246,11 @@ inputForm.appendChild(editNotes);
 
 editNotes.addEventListener("click", function (e) {
 	//kopierar koden till textarean
+	e.preventDefault();
 	noteBookArray.forEach((element) => {
-		inputArea.value += element + "\r\n\r\n";
+		inputArea.value += element + "\r\r";
 	});
+	savedEditedNotesTextArea();
 });
 
 let clearAll = document.createElement("button");
@@ -293,3 +296,22 @@ let savedInputs = document.createElement("h2");
 savedInputs.setAttribute("id", "saveInputs");
 savedInputs.textContent = "Saved";
 inputForm.appendChild(savedInputs);
+
+// removes notes in NoteBooks (aside) from both frontend and localstorage. puts it into textareas array and storage
+function savedEditedNotesTextArea() {
+	for (let i = 0; i < noteBookArray.length; i++) {
+		textAreaArrayNotes.push(noteBookArray[i]);
+		noteBookArray.splice(i, 1);
+		i--;
+	}
+	localStorage.setItem("saveEditedNotes", JSON.stringify(textAreaArrayNotes));
+	localStorage.removeItem("savedNoteBooks");
+}
+// supposed to save the notes to be edited on page refresh
+function saveEditedNoteToTextArea() {
+	for (let i = 0; i < editedNotesIntoTextarea.length; i++) {
+		let editedNote = document.createElement("p");
+		editedNote.appendChild(document.createTextNode(editedNotesIntoTextarea[i]));
+		document.getElementById("inputArea").appendChild(editedNote);
+	}
+}
