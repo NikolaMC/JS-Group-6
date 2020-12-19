@@ -1,23 +1,28 @@
 "use strict";
-window.localStorage.clear();
+//window.localStorage.clear();
 
 let bodyTag = document.getElementsByTagName("body")[0];
 
+// Create header element
 let createHeader = document.createElement("header");
 createHeader.setAttribute("id", "head");
 bodyTag.appendChild(createHeader);
 
+// Create aside element
 let createAside = document.createElement("aside");
 createAside.setAttribute("id", "noteBooks");
 bodyTag.appendChild(createAside);
 
+// Create main element
 let createMain = document.createElement("main");
 bodyTag.appendChild(createMain);
 
+// Create form element
 let createForm = document.createElement("form");
 createForm.setAttribute("id", "inputForm");
 document.getElementsByTagName("main")[0].appendChild(createForm);
 
+// Create textarea inside of form
 let createTextarea = document.createElement("textarea");
 createTextarea.setAttribute("id", "inputArea");
 createTextarea.setAttribute("rows", "7");
@@ -26,16 +31,19 @@ createForm.appendChild(createTextarea);
 let createBreak = document.createElement("br");
 createForm.appendChild(createBreak);
 
+// Create Add text button
 let createTextButton = document.createElement("button");
 createTextButton.setAttribute("id", "inputText");
 createTextButton.textContent = "Add text";
 createForm.appendChild(createTextButton);
 
+// Create Add list button
 let createListButton = document.createElement("button");
 createListButton.setAttribute("id", "inputList");
 createListButton.textContent = "Add list";
 createForm.appendChild(createListButton);
 
+// Create writeNotesHere div
 let createMainDiv = document.createElement("div");
 createMainDiv.setAttribute("id", "writeNotesHere");
 bodyTag.appendChild(createMainDiv);
