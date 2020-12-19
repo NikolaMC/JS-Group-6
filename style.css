@@ -5,48 +5,49 @@
 
 body {
 	display: grid;
-	height: 100vh;
 	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-template-rows: 0.65fr 1.5fr 1.2fr 0.6fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 	grid-template-areas:
 		"head head head head"
-		"noteBooks noteBooks main main"
-		"noteBooks noteBooks main main"
-		"noteBooks noteBooks main main";
+		"main main main main"
+		"noteBooks noteBooks writeNotesHere writeNotesHere"
+		"noteBooks noteBooks writeNotesHere writeNotesHere";
 	grid-gap: 0.2rem;
 	text-align: center;
+	background-image: url(/JS-Group-6/Images/photo-1607088829306-76f3779160f6.jpg);
 }
 
 #head {
-	background: #a9a9a9;
 	grid-area: head;
-	border-radius: var(--main-radius);
-	padding-top: var(--main-padding);
+	margin: 0;
 }
 
 main {
-	background: #ebe9e4;
 	grid-area: main;
 	border-radius: var(--main-radius);
-	padding-top: var(--main-padding);
+	margin-bottom: 0;
 }
 
 #noteBooks {
 	background: #dcdcdc;
 	grid-area: noteBooks;
 	border-radius: var(--main-radius);
-	padding-top: var(--main-padding);
+	overflow-y: auto;
+	height: 70vh;
+	text-align: left;
+	margin-top: 0%;
+	text-indent: 10px;
 }
 
 #writeNotesHere {
-	background: #7a7a78;
+	background-color: floralwhite;
 	grid-area: writeNotesHere;
 	border-radius: var(--main-radius);
-	padding-top: var(--main-padding);
-	padding-left: var(--main-padding);
-	height: 90%;
+	height: 70vh;
 	text-align: left;
-	overflow-y: scroll;
+	text-indent: 10px;
+	overflow-y: auto;
+	margin-top: 0%;
 }
 
 #inputArea {
@@ -54,12 +55,60 @@ main {
 	width: 80%;
 }
 #eraseNotesInMain {
-	position: relative;
-	margin-left: 100px;
+	position: absolute;
+	right: 0%;
+	margin-top: 55px;
+	font-style: italic;
 }
 #eraseListInMain {
-	position: relative;
+	position: absolute;
+	right: 10%;
+	margin-top: 55px;
 }
 button {
 	margin: 5px;
+	border: 0px;
+	background: none;
+	text-shadow: -1px -1px 0 #000, -1px 1px 0 #000, -1px 1px 0 #000;
+	-webkit-text-stroke: 1px #000;
+	font-size: 18px;
+	font-style: italic;
+	color: #fff;
+}
+#review {
+	position: absolute;
+	padding: 0px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+	right: 25%;
+	color: #fff;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px 1px 0 #000;
+	-webkit-text-stroke: 1px #000;
+	font-size: 40px;
+}
+#saveInputs {
+	position: absolute;
+	left: 25%;
+	padding: 0px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+	color: #fff;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, -1px 1px 0 #000;
+	-webkit-text-stroke: 1px #000;
+	font-size: 40px;
+}
+#editLists {
+	position: absolute;
+	left: 0%;
+	margin-top: 50px;
+}
+#clearAll {
+	position: absolute;
+	left: 16%;
+	margin-top: 50px;
+}
+#editNotes {
+	position: absolute;
+	left: 8%;
+	margin-top: 50px;
 }
