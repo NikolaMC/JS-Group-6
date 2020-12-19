@@ -1,5 +1,5 @@
 "use strict";
-window.localStorage.clear();
+//window.localStorage.clear();
 
 let bodyTag = document.getElementsByTagName("body")[0];
 
@@ -145,8 +145,6 @@ let aside = document.getElementById("noteBooks");
 aside.appendChild(folder);
 
 saveNote.addEventListener("click", function (e) {
-	e.preventDefault();
-
 	let firstPText = main.querySelector("p"); // Get the 1st paragraph in main
 	console.log(firstPText);
 
@@ -171,7 +169,6 @@ saveNoteList.textContent = "Save list";
 inputForm.appendChild(saveNoteList);
 
 saveNoteList.addEventListener("click", function (e) {
-	e.preventDefault();
 	let pList = document.getElementById("ulElement");
 
 	if (main.innerHTML == "") {
