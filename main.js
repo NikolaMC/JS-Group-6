@@ -1,5 +1,45 @@
 "use strict";
 window.localStorage.clear();
+
+let bodyTag = document.getElementsByTagName("body")[0];
+
+let createHeader = document.createElement("header");
+createHeader.setAttribute("id", "head");
+bodyTag.appendChild(createHeader);
+
+let createAside = document.createElement("aside");
+createAside.setAttribute("id", "noteBooks");
+bodyTag.appendChild(createAside);
+
+let createMain = document.createElement("main");
+bodyTag.appendChild(createMain);
+
+let createForm = document.createElement("form");
+createForm.setAttribute("id", "inputForm");
+document.getElementsByTagName("main")[0].appendChild(createForm);
+
+let createTextarea = document.createElement("textarea");
+createTextarea.setAttribute("id", "inputArea");
+createTextarea.setAttribute("rows", "7");
+createForm.appendChild(createTextarea);
+
+let createBreak = document.createElement("br");
+createForm.appendChild(createBreak);
+
+let createTextButton = document.createElement("button");
+createTextButton.setAttribute("id", "inputText");
+createTextButton.textContent = "Add text";
+createForm.appendChild(createTextButton);
+
+let createListButton = document.createElement("button");
+createListButton.setAttribute("id", "inputList");
+createListButton.textContent = "Add list";
+createForm.appendChild(createListButton);
+
+let createMainDiv = document.createElement("div");
+createMainDiv.setAttribute("id", "writeNotesHere");
+bodyTag.appendChild(createMainDiv);
+
 document.getElementById("head").innerHTML = "Ease Your Mind";
 document.querySelector("header").style.cssText = "color: black; font-size: 125px; font-family: courier;";
 document.querySelector("#noteBooks").style.cssText = "color: black; font-size: 16px; font-family: courier;";
