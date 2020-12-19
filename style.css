@@ -36,7 +36,8 @@ main {
 	height: 70vh;
 	text-align: left;
 	margin-top: 0%;
-	text-indent: 10px;
+	padding-left: 10px;
+	white-space: pre-line;
 }
 
 #writeNotesHere {
@@ -45,9 +46,10 @@ main {
 	border-radius: var(--main-radius);
 	height: 70vh;
 	text-align: left;
-	text-indent: 10px;
+	padding-left: 10px;
 	overflow-y: auto;
 	margin-top: 0%;
+	white-space: pre-line;
 }
 
 #inputArea {
