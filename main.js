@@ -157,11 +157,15 @@ let aside = document.getElementById("noteBooks");
 aside.appendChild(folder);
 
 saveNote.addEventListener("click", function (e) {
+	let firstPText = main.querySelector("p"); // Get the 1st paragraph in main
+
 	if (main.innerHTML == "") {
 		alert("Please enter something in the note before saving.");
 	} else {
-		saveNoteInNoteBooks();
-		main.innerHTML = "";
+		if (firstPText.textContent !== "") {
+			saveNoteInNoteBooks();
+			main.innerHTML = "";
+		}
 	}
 });
 
