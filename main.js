@@ -74,41 +74,49 @@ inputSubmit.addEventListener("click", function saveAsText(e) {
 });
 
 listSubmit.addEventListener("click", function saveASList(e) {
-	e.preventDefault();
+	//e.preventDefault();
 	saveList();
 });
 // saves the input as a normal text but also saves it in saveList() localstorage function
 function normalText() {
-	storeInMain();
-	let userText = inputArea.value;
-	let newParagraph = document.createElement("p");
-	let textNode = document.createTextNode(userText);
-	newParagraph.appendChild(textNode);
-	main.appendChild(newParagraph);
+	if (inputArea.value === "") {
+		alert("Can not add an empty note.");
+	} else {
+		storeInMain();
+		let userText = inputArea.value;
+		let newParagraph = document.createElement("p");
+		let textNode = document.createTextNode(userText);
+		newParagraph.appendChild(textNode);
+		main.appendChild(newParagraph);
+	}
 
 	inputArea.value = "";
 }
 // saves the input as a list but also stores it in localStorage when it reaches storeListInMain()
 function saveList() {
-	if (document.getElementById("ulElement") === null) {
-		let newUL = document.createElement("ul");
-		newUL.setAttribute("id", "ulElement");
-		main.appendChild(newUL);
-	}
-
-	let userText = inputArea.value.split('\n');
-	let listItem;
-
-	for (let i = 0; i < userText.length; i++) {
-		if (userText[i] !== "") {
-			listItem = document.createElement("li");
-			let textNode = document.createTextNode(userText[i]);
-			listItem.appendChild(textNode);
-			document.getElementById("ulElement").appendChild(listItem);
+	if (inputArea.value === "") {
+		alert("Can not add an empty list.");
+	} else {
+		if (document.getElementById("ulElement") === null) {
+			let newUL = document.createElement("ul");
+			newUL.setAttribute("id", "ulElement");
+			main.appendChild(newUL);
 		}
+	
+		let userText = inputArea.value.split('\n');
+		let listItem;
+	
+		for (let i = 0; i < userText.length; i++) {
+			if (userText[i] !== "") {
+				listItem = document.createElement("li");
+				let textNode = document.createTextNode(userText[i]);
+				listItem.appendChild(textNode);
+				document.getElementById("ulElement").appendChild(listItem);
+			}
+		}
+	
+		storeListInMain();
 	}
-
-	storeListInMain();
 
 	inputArea.value = "";
 }
@@ -157,7 +165,7 @@ let aside = document.getElementById("noteBooks");
 aside.appendChild(folder);
 
 saveNote.addEventListener("click", function (e) {
-	let firstPText = main.querySelector("p"); // Get the 1st paragraph in main
+	let firstPText = main.querySelector("p");
 
 	if (main.innerHTML == "") {
 		alert("Please enter something in the note before saving.");
@@ -206,11 +214,18 @@ const editedNotesIntoTextarea = JSON.parse(localStorage.getItem("saveEditedNotes
 // the saved elements in the savedListFromMain gets restored to a UL on refresh
 function savedList() {
 	let todoList = document.createElement("ul");
-	for (let i = 0; i < savedListFromMain.length; i++) {
-		let child = document.createElement("li");
-		child.appendChild(document.createTextNode(savedListFromMain[i]));
-		todoList.appendChild(child);
-		document.getElementById("writeNotesHere").appendChild(todoList);
+	todoList.setAttribute("id", "ulElement");
+
+	let listString = savedListFromMain.join("\n");
+	let splitList = listString.split("\n");
+
+	for (let i = 0; i < splitList.length; i++) {
+		if (splitList[i] !== "") {
+			let child = document.createElement("li");
+			child.appendChild(document.createTextNode(splitList[i]));
+			todoList.appendChild(child);
+			document.getElementById("writeNotesHere").appendChild(todoList);
+		}
 	}
 }
 // the saved elements in savedNotesFromMain is again output as normal text in main on refresh.
@@ -232,12 +247,37 @@ function saveNoteToNoteBooks() {
 // The saved elements in listIntoNoteBooks is output as a <ul> on page refresh in noteBooks
 function saveListToNoteBooks() {
 	let uList = document.createElement("ul");
-	for (let i = 0; i < listIntoNoteBooks.length; i++) {
-		let childList = document.createElement("li");
-		childList.appendChild(document.createTextNode(listIntoNoteBooks[i]));
-		uList.appendChild(childList);
-		document.getElementById("noteBooks").appendChild(childList);
+
+	let listString = listIntoNoteBooks.join("\n");
+	let splitList = listString.split("\n");
+	let listItem;
+
+	for (let i = 0; i < splitList.length; i++) {
+		if (splitList[i] !== "") {
+			listItem = document.createElement("li");
+			let textNode = document.createTextNode(splitList[i]);
+			listItem.appendChild(textNode);
+			uList.appendChild(listItem);
+			document.getElementById("noteBooks").appendChild(listItem);
+		}
 	}
+
+	// let splitList = localStorage.getItem("savedListBooks").split('\\n');
+	// let listItem;
+
+	// for (let i = 0; i < splitList.length; i++) {
+	// 	if (splitList[i] !== "") {
+	// 		listItem = document.createElement("li");
+	// 		let textNode = document.createTextNode(splitList[i]);
+	// 		listItem.appendChild(textNode);
+	// 		uList.appendChild(listItem);
+	// 		document.getElementById("noteBooks").appendChild(listItem);
+	// 	}
+	// 	// let childList = document.createElement("li");
+	// 	// childList.appendChild(document.createTextNode(listIntoNoteBooks[i]));
+	// 	// uList.appendChild(childList);
+	// 	// document.getElementById("noteBooks").appendChild(childList);
+	// }
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -315,12 +355,9 @@ editLists.innerHTML = "Edit Lists";
 inputForm.appendChild(editLists);
 
 editLists.addEventListener("click", function (e) {
-	e.preventDefault();
-
 	listBookArray.forEach((element) => {
 		inputArea.value += element + "\r";
 	});
-
 	//What to do?
 });
 // deletes notes in the aside, both frontend and localstorage
