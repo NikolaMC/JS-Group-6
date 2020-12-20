@@ -96,13 +96,17 @@ function saveList() {
 		main.appendChild(newUL);
 	}
 
-	let userText = inputArea.value;
+	let userText = inputArea.value.split('\n');
+	let listItem;
 
-	let newLI = document.createElement("li");
-	let textNode = document.createTextNode(userText);
-	newLI.appendChild(textNode);
-
-	document.getElementById("ulElement").appendChild(newLI);
+	for (let i = 0; i < userText.length; i++) {
+		if (userText[i] !== "") {
+			listItem = document.createElement("li");
+			let textNode = document.createTextNode(userText[i]);
+			listItem.appendChild(textNode);
+			document.getElementById("ulElement").appendChild(listItem);
+		}
+	}
 
 	storeListInMain();
 
@@ -154,20 +158,13 @@ aside.appendChild(folder);
 
 saveNote.addEventListener("click", function (e) {
 	let firstPText = main.querySelector("p"); // Get the 1st paragraph in main
-	console.log(firstPText);
 
 	if (main.innerHTML == "") {
 		alert("Please enter something in the note before saving.");
 	} else {
 		if (firstPText.textContent !== "") {
 			saveNoteInNoteBooks();
-			let newP = document.createElement("p");
-			newP.textContent = firstPText.textContent;
-			folder.appendChild(newP);
 			main.innerHTML = "";
-			console.log("added p");
-		} else {
-			console.log("Empty text");
 		}
 	}
 });
@@ -180,7 +177,7 @@ saveNoteList.addEventListener("click", function (e) {
 	let pList = document.getElementById("ulElement");
 
 	if (main.innerHTML == "") {
-		alert("Please create a list before saving your list's.");
+		alert("Please create a list before saving your lists.");
 	} else {
 		if (pList.textContent !== "") {
 			let newP2 = document.createElement("li");
@@ -319,6 +316,10 @@ inputForm.appendChild(editLists);
 
 editLists.addEventListener("click", function (e) {
 	e.preventDefault();
+
+	listBookArray.forEach((element) => {
+		inputArea.value += element + "\r";
+	});
 
 	//What to do?
 });
