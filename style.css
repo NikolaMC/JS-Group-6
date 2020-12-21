@@ -14,7 +14,7 @@ body {
 		"noteBooks noteBooks writeNotesHere writeNotesHere";
 	grid-gap: 0.2rem;
 	text-align: center;
-	background-image: url(/JS-Group-6/Images/photo-1607088829306-76f3779160f6.jpg);
+	background-image: url("/Images/photo-1607088829306-76f3779160f6.jpg");
 }
 
 #head {

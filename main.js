@@ -21,11 +21,10 @@ let createForm = document.createElement("form");
 createForm.setAttribute("id", "inputForm");
 document.getElementsByTagName("main")[0].appendChild(createForm);
 
-// Create textarea inside of form
+// Create textarea and a line break inside of form
 let createTextarea = document.createElement("textarea");
 createTextarea.setAttribute("id", "inputArea");
 createTextarea.setAttribute("rows", "7");
-
 createForm.appendChild(createTextarea);
 
 let createBreak = document.createElement("br");
@@ -51,13 +50,15 @@ bodyTag.appendChild(createMainDiv);
 document.getElementById("head").innerHTML = "Ease Your Mind";
 document.querySelector("header").style.cssText = "color: black; font-size: 125px; font-family: courier;";
 document.querySelector("#noteBooks").style.cssText = "color: black; font-size: 16px; font-family: courier;";
+
 let inputForm = document.getElementById("inputForm");
 let inputArea = document.getElementById("inputArea");
 let inputSubmit = document.getElementById("inputText");
 let listSubmit = document.getElementById("inputList");
 let toggleButton = document.getElementById("toggleList");
 let main = document.getElementById("writeNotesHere");
-// ternary because it looks better
+
+// Ternary because it looks better
 let inputArray = window.localStorage.getItem("notes") ? JSON.parse(localStorage.getItem("notes")) : [];
 let noteBookArray = window.localStorage.getItem("savedNoteBooks") ? JSON.parse(localStorage.getItem("savedNoteBooks")) : [];
 let listArray = window.localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
@@ -65,7 +66,7 @@ let listBookArray = window.localStorage.getItem("savedListBooks") ? JSON.parse(l
 let textAreaArrayNotes = window.localStorage.getItem("saveEditedNotes") ? JSON.parse(localStorage.getItem("saveEditedNotes")) : [];
 let textAreaArrayLists = window.localStorage.getItem("saveEditedLists") ? JSON.parse(localStorage.getItem("saveEditedLists")) : [];
 
-// makes the array elements into JSON strings which is required to store them into localstorage
+// Makes the array elements into JSON strings which is required to store them into localstorage
 localStorage.setItem("notes", JSON.stringify(inputArray));
 localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
 localStorage.setItem("list", JSON.stringify(listArray));
@@ -73,7 +74,7 @@ localStorage.setItem("savedListBooks", JSON.stringify(listBookArray));
 localStorage.setItem("saveEditedNotes", JSON.stringify(textAreaArrayNotes));
 localStorage.setItem("saveEditedLists", JSON.stringify(textAreaArrayLists));
 
-// adds the notes from textarea also, removes the edited storage and arrays if notes was edited
+// Adds the notes from textarea also, removes the edited storage and arrays if notes was edited
 inputSubmit.addEventListener("click", function saveAsText(e) {
 	normalText();
 	for (let i = 0; i < textAreaArrayNotes.length; i++) {
@@ -83,9 +84,8 @@ inputSubmit.addEventListener("click", function saveAsText(e) {
 	localStorage.removeItem("saveEditedNotes");
 });
 
-// adds the lists from textarea, also removes the edited storage and arrays if lists was edited
+// Adds the lists from textarea, also removes the edited storage and arrays if lists was edited
 listSubmit.addEventListener("click", function saveASList(e) {
-	//e.preventDefault();
 	saveList();
 	for (let i = 0; i < textAreaArrayLists.length; i++) {
 		textAreaArrayLists.splice(i, 1);
@@ -93,6 +93,7 @@ listSubmit.addEventListener("click", function saveASList(e) {
 	}
 	localStorage.removeItem("saveEditedLists");
 });
+
 // saves the input as a normal text but also saves it in saveList() localstorage function
 function normalText() {
 	if (inputArea.value === "") {
@@ -108,6 +109,7 @@ function normalText() {
 
 	inputArea.value = "";
 }
+
 // saves the input as a list but also stores it in localStorage when it reaches storeListInMain()
 function saveList() {
 	if (inputArea.value === "") {
@@ -120,11 +122,10 @@ function saveList() {
 		}
 
 		let userText = inputArea.value.split("\n");
-		let listItem;
 
 		for (let i = 0; i < userText.length; i++) {
 			if (userText[i] !== "") {
-				listItem = document.createElement("li");
+				let listItem = document.createElement("li");
 				let textNode = document.createTextNode(userText[i]);
 				listItem.appendChild(textNode);
 				document.getElementById("ulElement").appendChild(listItem);
@@ -142,12 +143,14 @@ function storeInMain() {
 	inputArray.push(inputArea.value);
 	localStorage.setItem("notes", JSON.stringify(inputArray));
 }
+
 // Function to store the list elements.
 function storeListInMain() {
 	listArray.push(inputArea.value);
 	localStorage.setItem("list", JSON.stringify(listArray));
 }
-// fills the noteBookArray with the elements from inputArray but also empties inputArray
+
+// Fills the noteBookArray with the elements from inputArray but also empties inputArray
 // when a note is saved into noteBooks the "notes" in main will be emptied
 function saveNoteInNoteBooks() {
 	for (let i = 0; i < inputArray.length; i++) {
@@ -158,7 +161,8 @@ function saveNoteInNoteBooks() {
 	localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
 	localStorage.removeItem("notes");
 }
-// fills the listBookArray with the elements from listArray but also empties listArray
+
+// Fills the listBookArray with the elements from listArray but also empties listArray
 // when a list is saved into noteBooks the "list" in main will be emptied
 function saveListInNoteBooks() {
 	for (let i = 0; i < listArray.length; i++) {
@@ -170,6 +174,7 @@ function saveListInNoteBooks() {
 	localStorage.removeItem("list");
 }
 
+// Creates Save note button
 let saveNote = document.createElement("button");
 saveNote.textContent = "Save note";
 inputForm.appendChild(saveNote);
@@ -180,6 +185,7 @@ folder.setAttribute("id", "folderForNotes");
 let aside = document.getElementById("noteBooks");
 aside.appendChild(folder);
 
+// Save text from main to noteBooks
 saveNote.addEventListener("click", function (e) {
 	let firstPText = main.querySelector("p");
 
@@ -193,10 +199,12 @@ saveNote.addEventListener("click", function (e) {
 	}
 });
 
+// Creates Save list button
 let saveNoteList = document.createElement("button");
 saveNoteList.textContent = "Save list";
 inputForm.appendChild(saveNoteList);
 
+// Save list from main to noteBooks
 saveNoteList.addEventListener("click", function (e) {
 	let pList = document.getElementById("ulElement");
 
@@ -219,7 +227,7 @@ saveNoteList.addEventListener("click", function (e) {
 	}
 });
 
-// the arrays are changed into a normal javascript string before we call them
+// The arrays are changed into a normal javascript string before we call them
 // into the functions that show them on the page on refresh / opening of page.
 const savedNotesFromMain = JSON.parse(localStorage.getItem("notes"));
 const savedListFromMain = JSON.parse(localStorage.getItem("list"));
@@ -227,7 +235,8 @@ const notesIntoNoteBooks = JSON.parse(localStorage.getItem("savedNoteBooks"));
 const listIntoNoteBooks = JSON.parse(localStorage.getItem("savedListBooks"));
 const editedNotesIntoTextarea = JSON.parse(localStorage.getItem("saveEditedNotes"));
 const editedListsIntoTextarea = JSON.parse(localStorage.getItem("saveEditedLists"));
-// the saved elements in the savedListFromMain gets restored to a UL on refresh
+
+// The saved elements in the savedListFromMain gets restored to a UL on refresh
 function savedList() {
 	let todoList = document.createElement("ul");
 	todoList.setAttribute("id", "ulElement");
@@ -244,7 +253,8 @@ function savedList() {
 		}
 	}
 }
-// the saved elements in savedNotesFromMain is again output as normal text in main on refresh.
+
+// The saved elements in savedNotesFromMain is again output as normal text in main on refresh.
 function savedNote() {
 	for (let i = 0; i < savedNotesFromMain.length; i++) {
 		let toDoNote = document.createElement("p");
@@ -252,7 +262,8 @@ function savedNote() {
 		document.getElementById("writeNotesHere").appendChild(toDoNote);
 	}
 }
-// the saved elements in savedNotesFromMain is again output as normal text in noteBooks on refresh.
+
+// The saved elements in savedNotesFromMain is again output as normal text in noteBooks on refresh.
 function saveNoteToNoteBooks() {
 	for (let i = 0; i < notesIntoNoteBooks.length; i++) {
 		let noteSavedNote = document.createElement("p");
@@ -260,42 +271,26 @@ function saveNoteToNoteBooks() {
 		document.getElementById("noteBooks").appendChild(noteSavedNote);
 	}
 }
+
 // The saved elements in listIntoNoteBooks is output as a <ul> on page refresh in noteBooks
 function saveListToNoteBooks() {
 	let uList = document.createElement("ul");
 
 	let listString = listIntoNoteBooks.join("\n");
 	let splitList = listString.split("\n");
-	let listItem;
 
 	for (let i = 0; i < splitList.length; i++) {
 		if (splitList[i] !== "") {
-			listItem = document.createElement("li");
+			let listItem = document.createElement("li");
 			let textNode = document.createTextNode(splitList[i]);
 			listItem.appendChild(textNode);
 			uList.appendChild(listItem);
 			document.getElementById("noteBooks").appendChild(listItem);
 		}
 	}
-
-	// let splitList = localStorage.getItem("savedListBooks").split('\\n');
-	// let listItem;
-
-	// for (let i = 0; i < splitList.length; i++) {
-	// 	if (splitList[i] !== "") {
-	// 		listItem = document.createElement("li");
-	// 		let textNode = document.createTextNode(splitList[i]);
-	// 		listItem.appendChild(textNode);
-	// 		uList.appendChild(listItem);
-	// 		document.getElementById("noteBooks").appendChild(listItem);
-	// 	}
-	// 	// let childList = document.createElement("li");
-	// 	// childList.appendChild(document.createTextNode(listIntoNoteBooks[i]));
-	// 	// uList.appendChild(childList);
-	// 	// document.getElementById("noteBooks").appendChild(childList);
-	// }
 }
 
+// Creates Delete notes and Delete lists buttons
 let eraseNotesInMain = document.createElement("button");
 let eraseListInMain = document.createElement("button");
 eraseNotesInMain.textContent = "Delete notes";
@@ -305,7 +300,7 @@ eraseListInMain.setAttribute("id", "eraseListInMain");
 inputForm.appendChild(eraseNotesInMain);
 inputForm.appendChild(eraseListInMain);
 
-// erase normal text from both memory and frontend
+// Erase normal text from both memory and frontend
 eraseNotesInMain.addEventListener("click", function () {
 	for (let i = 0; i < inputArray.length; i++) {
 		inputArray.splice(i, 1);
@@ -313,7 +308,8 @@ eraseNotesInMain.addEventListener("click", function () {
 	}
 	localStorage.removeItem("notes");
 });
-// erase unordered lists from both memory and frontend
+
+// Erase unordered lists from both memory and frontend
 eraseListInMain.addEventListener("click", function () {
 	for (let i = 0; i < listArray.length; i++) {
 		listArray.splice(i, 1);
@@ -322,19 +318,19 @@ eraseListInMain.addEventListener("click", function () {
 	localStorage.removeItem("list");
 });
 
-// creates a review <h2> above main
+// Creates a review <h2> above main
 let reviewText = document.createElement("h2");
 reviewText.setAttribute("id", "review");
 document.getElementById("inputForm").appendChild(reviewText);
 document.getElementById("review").innerHTML = "Review";
 
-// creates button to edit notes
+// Creates button to edit notes
 let editNotes = document.createElement("button");
 editNotes.setAttribute("id", "editNotes");
 editNotes.innerHTML = "Edit Notes";
 inputForm.appendChild(editNotes);
 
-//every saved element in the noteBookArray is thrown into the textarea while also erasing the memory of notes in "noteBooks"
+// Every saved element in the noteBookArray is thrown into the textarea while also erasing the memory of notes in "noteBooks"
 editNotes.addEventListener("click", function (e) {
 	noteBookArray.forEach((element) => {
 		inputArea.value += element + "\r";
@@ -342,24 +338,26 @@ editNotes.addEventListener("click", function (e) {
 	savedEditedNotesTextArea();
 });
 
+// Creates Clear All button
 let clearAll = document.createElement("button");
 clearAll.setAttribute("id", "clearAll");
 clearAll.textContent = "Clear All";
 inputForm.appendChild(clearAll);
-// eventlistener that calls on both the functions that erase lists and notes in frontend and localstorage
+
+// Eventlistener that calls on both the functions that erase lists and notes in frontend and localstorage
 clearAll.addEventListener("click", function () {
 	deleteSavedNote();
 	deleteSavedList();
 	location.reload();
 });
 
-// creates button to edit lists
+// Creates button to edit lists
 let editLists = document.createElement("button");
 editLists.setAttribute("id", "editLists");
 editLists.textContent = "Edit Lists";
 inputForm.appendChild(editLists);
 
-// every saved element in the listBookArray is thrown into the textarea while also erasing the memory of lists in "noteBooks"
+// Every saved element in the listBookArray is thrown into the textarea while also erasing the memory of lists in "noteBooks"
 editLists.addEventListener("click", function (e) {
 	listBookArray.forEach((element) => {
 		inputArea.value += element + "\r";
@@ -368,7 +366,7 @@ editLists.addEventListener("click", function (e) {
 	localStorage.removeItem("savedListBooks");
 });
 
-// deletes notes in the aside, both frontend and localstorage
+// Deletes notes in the aside, both frontend and localstorage
 function deleteSavedNote() {
 	for (let i = 0; i < notesIntoNoteBooks.length; i++) {
 		notesIntoNoteBooks.splice(i, 1);
@@ -377,7 +375,7 @@ function deleteSavedNote() {
 	localStorage.removeItem("savedNoteBooks");
 }
 
-// deletes lists in aside, both frontend and localstorage
+// Deletes lists in aside, both frontend and localstorage
 function deleteSavedList() {
 	for (let i = 0; i < listIntoNoteBooks.length; i++) {
 		listIntoNoteBooks.splice(i, 1);
@@ -386,12 +384,13 @@ function deleteSavedList() {
 	localStorage.removeItem("savedListBooks");
 }
 
+// Creates Saved h2
 let savedInputs = document.createElement("h2");
 savedInputs.setAttribute("id", "saveInputs");
 savedInputs.textContent = "Saved";
 inputForm.appendChild(savedInputs);
 
-// removes notes in NoteBooks (aside) from both frontend and localstorage. puts it into textareas array and storage
+// Removes notes in NoteBooks (aside) from both frontend and localstorage. puts it into textareas array and storage
 function savedEditedNotesTextArea() {
 	for (let i = 0; i < noteBookArray.length; i++) {
 		textAreaArrayNotes.push(noteBookArray[i]);
@@ -402,14 +401,14 @@ function savedEditedNotesTextArea() {
 	localStorage.removeItem("savedNoteBooks");
 }
 
-// shows the notes to be edited on page refresh
+// Shows the notes to be edited on page refresh
 function saveEditedNoteToTextAreaFrontend() {
 	for (let i = 0; i < editedNotesIntoTextarea.length; i++) {
 		document.getElementById("inputArea").appendChild(document.createTextNode(editedNotesIntoTextarea));
 	}
 }
 
-// empties both the array and localstorage in "noteBooks" and puts the list values into a textarea storage for lists
+// Empties both the array and localstorage in "noteBooks" and puts the list values into a textarea storage for lists
 function saveEditedListsTextArea() {
 	for (let i = 0; i < listBookArray.length; i++) {
 		textAreaArrayLists.push(listBookArray[i]);
@@ -420,7 +419,7 @@ function saveEditedListsTextArea() {
 	localStorage.removeItem("savedListBooks");
 }
 
-// shows the lists to be edited in page refresh in Textarea
+// Shows the lists to be edited in page refresh in Textarea
 function saveEditedListsToTextareaFrontEnd() {
 	for (let i = 0; i < editedListsIntoTextarea.length; i++) {
 		document.getElementById("inputArea").appendChild(document.createTextNode(editedListsIntoTextarea));
