@@ -417,7 +417,7 @@ function saveEditedListsTextArea() {
 		i--;
 	}
 	localStorage.setItem("saveEditedLists", JSON.stringify(textAreaArrayLists));
-	localStorage.removeItem("savedNoteBooks");
+	localStorage.removeItem("savedListBooks");
 }
 
 // shows the lists to be edited in page refresh in Textarea
