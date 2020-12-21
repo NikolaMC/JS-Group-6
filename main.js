@@ -74,7 +74,16 @@ localStorage.setItem("savedListBooks", JSON.stringify(listBookArray));
 localStorage.setItem("saveEditedNotes", JSON.stringify(textAreaArrayNotes));
 localStorage.setItem("saveEditedLists", JSON.stringify(textAreaArrayLists));
 
-// Adds the notes from textarea also, removes the edited storage and arrays if notes was edited
+// The arrays are changed into a normal javascript string before we call them
+// into the functions that show them on the page on refresh / opening of page.
+let savedNotesFromMain = JSON.parse(localStorage.getItem("notes"));
+let savedListFromMain = JSON.parse(localStorage.getItem("list"));
+let notesIntoNoteBooks = JSON.parse(localStorage.getItem("savedNoteBooks"));
+let listIntoNoteBooks = JSON.parse(localStorage.getItem("savedListBooks"));
+let editedNotesIntoTextarea = JSON.parse(localStorage.getItem("saveEditedNotes"));
+let editedListsIntoTextarea = JSON.parse(localStorage.getItem("saveEditedLists"));
+
+// Adds the notes from textarea, also removes the edited storage and arrays if notes was edited
 inputSubmit.addEventListener("click", function saveAsText(e) {
 	normalText();
 	for (let i = 0; i < textAreaArrayNotes.length; i++) {
@@ -226,15 +235,6 @@ saveNoteList.addEventListener("click", function (e) {
 		}
 	}
 });
-
-// The arrays are changed into a normal javascript string before we call them
-// into the functions that show them on the page on refresh / opening of page.
-const savedNotesFromMain = JSON.parse(localStorage.getItem("notes"));
-const savedListFromMain = JSON.parse(localStorage.getItem("list"));
-const notesIntoNoteBooks = JSON.parse(localStorage.getItem("savedNoteBooks"));
-const listIntoNoteBooks = JSON.parse(localStorage.getItem("savedListBooks"));
-const editedNotesIntoTextarea = JSON.parse(localStorage.getItem("saveEditedNotes"));
-const editedListsIntoTextarea = JSON.parse(localStorage.getItem("saveEditedLists"));
 
 // The saved elements in the savedListFromMain gets restored to a UL on refresh
 function savedList() {
