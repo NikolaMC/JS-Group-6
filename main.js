@@ -1,5 +1,4 @@
 "use strict";
-//window.localStorage.clear();
 
 let bodyTag = document.getElementsByTagName("body")[0];
 
@@ -26,6 +25,7 @@ document.getElementsByTagName("main")[0].appendChild(createForm);
 let createTextarea = document.createElement("textarea");
 createTextarea.setAttribute("id", "inputArea");
 createTextarea.setAttribute("rows", "7");
+
 createForm.appendChild(createTextarea);
 
 let createBreak = document.createElement("br");
@@ -57,25 +57,41 @@ let inputSubmit = document.getElementById("inputText");
 let listSubmit = document.getElementById("inputList");
 let toggleButton = document.getElementById("toggleList");
 let main = document.getElementById("writeNotesHere");
+// ternary because it looks better
 let inputArray = window.localStorage.getItem("notes") ? JSON.parse(localStorage.getItem("notes")) : [];
 let noteBookArray = window.localStorage.getItem("savedNoteBooks") ? JSON.parse(localStorage.getItem("savedNoteBooks")) : [];
 let listArray = window.localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
 let listBookArray = window.localStorage.getItem("savedListBooks") ? JSON.parse(localStorage.getItem("savedListBooks")) : [];
 let textAreaArrayNotes = window.localStorage.getItem("saveEditedNotes") ? JSON.parse(localStorage.getItem("saveEditedNotes")) : [];
+let textAreaArrayLists = window.localStorage.getItem("saveEditedLists") ? JSON.parse(localStorage.getItem("saveEditedLists")) : [];
+
 // makes the array elements into JSON strings which is required to store them into localstorage
 localStorage.setItem("notes", JSON.stringify(inputArray));
 localStorage.setItem("savedNoteBooks", JSON.stringify(noteBookArray));
 localStorage.setItem("list", JSON.stringify(listArray));
 localStorage.setItem("savedListBooks", JSON.stringify(listBookArray));
 localStorage.setItem("saveEditedNotes", JSON.stringify(textAreaArrayNotes));
+localStorage.setItem("saveEditedLists", JSON.stringify(textAreaArrayLists));
 
+// adds the notes from textarea also, removes the edited storage and arrays if notes was edited
 inputSubmit.addEventListener("click", function saveAsText(e) {
 	normalText();
+	for (let i = 0; i < textAreaArrayNotes.length; i++) {
+		textAreaArrayNotes.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("saveEditedNotes");
 });
 
+// adds the lists from textarea, also removes the edited storage and arrays if lists was edited
 listSubmit.addEventListener("click", function saveASList(e) {
 	//e.preventDefault();
 	saveList();
+	for (let i = 0; i < textAreaArrayLists.length; i++) {
+		textAreaArrayLists.splice(i, 1);
+		i--;
+	}
+	localStorage.removeItem("saveEditedLists");
 });
 // saves the input as a normal text but also saves it in saveList() localstorage function
 function normalText() {
@@ -102,10 +118,10 @@ function saveList() {
 			newUL.setAttribute("id", "ulElement");
 			main.appendChild(newUL);
 		}
-	
-		let userText = inputArea.value.split('\n');
+
+		let userText = inputArea.value.split("\n");
 		let listItem;
-	
+
 		for (let i = 0; i < userText.length; i++) {
 			if (userText[i] !== "") {
 				listItem = document.createElement("li");
@@ -114,7 +130,7 @@ function saveList() {
 				document.getElementById("ulElement").appendChild(listItem);
 			}
 		}
-	
+
 		storeListInMain();
 	}
 
@@ -195,7 +211,6 @@ saveNoteList.addEventListener("click", function (e) {
 			arrayList.forEach(function () {
 				folder.appendChild(newP2);
 			});
-			console.log(arrayList);
 			folder.appendChild(newP2);
 			main.innerHTML = "";
 
@@ -211,6 +226,7 @@ const savedListFromMain = JSON.parse(localStorage.getItem("list"));
 const notesIntoNoteBooks = JSON.parse(localStorage.getItem("savedNoteBooks"));
 const listIntoNoteBooks = JSON.parse(localStorage.getItem("savedListBooks"));
 const editedNotesIntoTextarea = JSON.parse(localStorage.getItem("saveEditedNotes"));
+const editedListsIntoTextarea = JSON.parse(localStorage.getItem("saveEditedLists"));
 // the saved elements in the savedListFromMain gets restored to a UL on refresh
 function savedList() {
 	let todoList = document.createElement("ul");
@@ -280,14 +296,6 @@ function saveListToNoteBooks() {
 	// }
 }
 
-window.addEventListener("DOMContentLoaded", (event) => {
-	savedNote();
-	savedList();
-	saveNoteToNoteBooks();
-	saveListToNoteBooks();
-	saveEditedNoteToTextArea();
-});
-
 let eraseNotesInMain = document.createElement("button");
 let eraseListInMain = document.createElement("button");
 eraseNotesInMain.textContent = "Delete notes";
@@ -314,24 +322,22 @@ eraseListInMain.addEventListener("click", function () {
 	localStorage.removeItem("list");
 });
 
-// skapar ett h2 element och lägger in över main, "Granska"
-
+// creates a review <h2> above main
 let reviewText = document.createElement("h2");
 reviewText.setAttribute("id", "review");
 document.getElementById("inputForm").appendChild(reviewText);
 document.getElementById("review").innerHTML = "Review";
 
-// skapar knapp för Edita notes
+// creates button to edit notes
 let editNotes = document.createElement("button");
 editNotes.setAttribute("id", "editNotes");
 editNotes.innerHTML = "Edit Notes";
 inputForm.appendChild(editNotes);
 
+//every saved element in the noteBookArray is thrown into the textarea while also erasing the memory of notes in "noteBooks"
 editNotes.addEventListener("click", function (e) {
-	//kopierar koden till textarean
-	e.preventDefault();
 	noteBookArray.forEach((element) => {
-		inputArea.value += element + "\r\r";
+		inputArea.value += element + "\r";
 	});
 	savedEditedNotesTextArea();
 });
@@ -347,19 +353,21 @@ clearAll.addEventListener("click", function () {
 	location.reload();
 });
 
-// skapar knapp för att Edita Lists.
-
+// creates button to edit lists
 let editLists = document.createElement("button");
 editLists.setAttribute("id", "editLists");
-editLists.innerHTML = "Edit Lists";
+editLists.textContent = "Edit Lists";
 inputForm.appendChild(editLists);
 
+// every saved element in the listBookArray is thrown into the textarea while also erasing the memory of lists in "noteBooks"
 editLists.addEventListener("click", function (e) {
 	listBookArray.forEach((element) => {
 		inputArea.value += element + "\r";
 	});
-	//What to do?
+	saveEditedListsTextArea();
+	localStorage.removeItem("savedListBooks");
 });
+
 // deletes notes in the aside, both frontend and localstorage
 function deleteSavedNote() {
 	for (let i = 0; i < notesIntoNoteBooks.length; i++) {
@@ -368,6 +376,7 @@ function deleteSavedNote() {
 	}
 	localStorage.removeItem("savedNoteBooks");
 }
+
 // deletes lists in aside, both frontend and localstorage
 function deleteSavedList() {
 	for (let i = 0; i < listIntoNoteBooks.length; i++) {
@@ -376,6 +385,7 @@ function deleteSavedList() {
 	}
 	localStorage.removeItem("savedListBooks");
 }
+
 let savedInputs = document.createElement("h2");
 savedInputs.setAttribute("id", "saveInputs");
 savedInputs.textContent = "Saved";
@@ -391,11 +401,37 @@ function savedEditedNotesTextArea() {
 	localStorage.setItem("saveEditedNotes", JSON.stringify(textAreaArrayNotes));
 	localStorage.removeItem("savedNoteBooks");
 }
-// supposed to save the notes to be edited on page refresh
-function saveEditedNoteToTextArea() {
+
+// shows the notes to be edited on page refresh
+function saveEditedNoteToTextAreaFrontend() {
 	for (let i = 0; i < editedNotesIntoTextarea.length; i++) {
-		let editedNote = document.createElement("p");
-		editedNote.appendChild(document.createTextNode(editedNotesIntoTextarea[i]));
-		document.getElementById("inputArea").appendChild(editedNote);
+		document.getElementById("inputArea").appendChild(document.createTextNode(editedNotesIntoTextarea));
 	}
 }
+
+// empties both the array and localstorage in "noteBooks" and puts the list values into a textarea storage for lists
+function saveEditedListsTextArea() {
+	for (let i = 0; i < listBookArray.length; i++) {
+		textAreaArrayLists.push(listBookArray[i]);
+		listBookArray.splice(i, 1);
+		i--;
+	}
+	localStorage.setItem("saveEditedLists", JSON.stringify(textAreaArrayLists));
+	localStorage.removeItem("savedNoteBooks");
+}
+
+// shows the lists to be edited in page refresh in Textarea
+function saveEditedListsToTextareaFrontEnd() {
+	for (let i = 0; i < editedListsIntoTextarea.length; i++) {
+		document.getElementById("inputArea").appendChild(document.createTextNode(editedListsIntoTextarea));
+	}
+}
+
+window.addEventListener("DOMContentLoaded", (event) => {
+	savedNote();
+	savedList();
+	saveNoteToNoteBooks();
+	saveListToNoteBooks();
+	saveEditedNoteToTextAreaFrontend();
+	saveEditedListsToTextareaFrontEnd();
+});
