@@ -86,7 +86,6 @@ inputSubmit.addEventListener("click", function saveAsText(e) {
 
 // Adds the lists from textarea, also removes the edited storage and arrays if lists was edited
 listSubmit.addEventListener("click", function saveASList(e) {
-	//e.preventDefault();
 	saveList();
 	for (let i = 0; i < textAreaArrayLists.length; i++) {
 		textAreaArrayLists.splice(i, 1);
